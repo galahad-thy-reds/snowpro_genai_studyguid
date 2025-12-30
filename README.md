@@ -83,7 +83,7 @@ The app will open in your browser at `http://localhost:8501`
 ```
 snowpro_genai_studyguid/
 ├── app.py                    # Main Streamlit entry point
-├── pages/                     # Multi-page app structure
+├── pages/                     # Multi-page app structure (presentation layer)
 │   ├── 1_📚_Introduction.py
 │   ├── 2_🔍_Domain_1_Overview.py
 │   ├── 3_🤖_Domain_2_GenAI_Functions.py
@@ -93,6 +93,9 @@ snowpro_genai_studyguid/
 │   └── 7_📝_Exam_Prep.py
 ├── src/
 │   ├── config.py            # Configuration and constants
+│   ├── content/             # Content modules (data layer)
+│   │   ├── __init__.py
+│   │   └── domain_1.py      # Domain 1.0 content (subdomains, tasks)
 │   ├── data_loader.py       # Load and parse study plan content
 │   ├── snowflake_utils.py   # Snowflake connection helpers
 │   └── utils.py             # Utility functions
@@ -103,6 +106,20 @@ snowpro_genai_studyguid/
 ├── .python-version          # Python 3.10
 └── README.md                # This file
 ```
+
+### Architecture
+
+The project follows a **separation of concerns** pattern:
+
+- **`pages/`**: Streamlit page files (presentation layer) - handle UI rendering
+- **`src/content/`**: Content modules (data layer) - store structured content using dataclasses
+- **`src/`**: Utility modules - shared functionality and configuration
+
+This separation allows:
+- Content updates without touching UI code
+- Reusable content across different views
+- Type-safe content structures
+- Easier testing and maintenance
 
 ## 🛠️ Development
 
@@ -128,6 +145,20 @@ uv run streamlit run app.py
 - Use type hints (Python 3.10+)
 - Maximum line length: 100 characters
 - Google-style docstrings
+
+### Content Architecture
+
+**Content Separation Pattern:**
+- Store section content in `src/content/` modules (e.g., `domain_1.py`)
+- Use dataclasses from `src/data_loader.py` (`Subdomain`, `Reading`, `PracticeTask`)
+- Page files import and render content, keeping presentation logic separate
+- Example: `pages/2_🔍_Domain_1_Overview.py` imports from `src.content.domain_1`
+
+**Adding New Content:**
+1. Create content file in `src/content/` (e.g., `domain_2.py`)
+2. Define content using dataclasses (`Subdomain`, `PracticeTask`, etc.)
+3. Export constants (e.g., `DOMAIN_2_SUBDOMAINS`, `DOMAIN_2_PRACTICE_TASKS`)
+4. Import in page file and render
 
 ## 📖 Study Guide Features
 
