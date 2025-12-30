@@ -18,6 +18,14 @@ class Reading:
 
 
 @dataclass(frozen=True)
+class Subdomain:
+    """Represents a subdomain with objectives and readings."""
+    title: str
+    objectives: str
+    readings: list[Reading]
+
+
+@dataclass(frozen=True)
 class Objective:
     """Represents a learning objective."""
     description: str
