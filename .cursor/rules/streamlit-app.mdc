@@ -134,6 +134,22 @@ for subdomain in DOMAIN_1_SUBDOMAINS:
 - Content files should only contain data structures (no Streamlit imports)
 - When adding new sections, create corresponding content module first
 
+### Content Enhancement Pattern
+
+**Subdomain Enhancement:**
+- Always include `key_points` list for each subdomain (explains "what" and "when to use")
+- Always include `exam_focus` string (concise exam reminder)
+- Key points should use **bold** for important terms
+- Focus on practical use cases and configuration parameters
+- Reference specific functions, roles, parameters, and their purposes
+
+**Page Rendering:**
+- Display study plan references at page top (link to both markdown and PDF)
+- Show exam focus prominently in each subdomain expander
+- Organize key points clearly with bullet formatting
+- Use separators (`---`) between sections for clarity
+- Include study tips and context about exam coverage
+
 ## Study Plan Integration
 
 - Parse study plan content from [SnowPro_GenAI_Study_Plan_V2.md](mdc:docs/SnowPro_GenAI_Study_Plan_V2.md)

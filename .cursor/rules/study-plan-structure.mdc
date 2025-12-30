@@ -61,3 +61,56 @@ When parsing the study plan, create data structures for:
 - Reading (with title and URL)
 - Practice Task (with description and optional URL)
 - Assignment (with description and deliverables)
+
+## Content Enhancement Pattern
+
+**Subdomain Content Structure:**
+Each `Subdomain` dataclass should include:
+- `title`: Subdomain title
+- `objectives`: Learning objectives from study plan
+- `readings`: List of Reading objects (documentation links)
+- `key_points`: List of key points to remember (optional but recommended)
+- `exam_focus`: Concise exam focus statement (optional but recommended)
+
+**Key Points Format:**
+- Use bullet points with **bold** for important terms
+- Explain "when to use" each component
+- Include configuration parameters and their purposes
+- Reference specific functions, roles, or settings
+- Keep each point focused and actionable
+
+**Exam Focus Format:**
+- Single sentence summarizing what to remember for the exam
+- Include key parameters, roles, or concepts
+- Reference preview/GA status when relevant
+- Keep it concise and memorable
+
+**Example:**
+```python
+Subdomain(
+    title="1. Principles, Features & Best Practices",
+    objectives="Differentiate Cortex components...",
+    readings=[Reading(...), ...],
+    key_points=[
+        "**AISQL**: SQL interface for LLM functions - Use for direct SQL queries",
+        "**Cortex Analyst**: NL2SQL service - Use for natural language to SQL",
+        ...
+    ],
+    exam_focus="Know when to use each component. AISQL = SQL, Analyst = NL2SQL, Search = RAG, Agents = automation.",
+)
+```
+
+## Page Rendering Pattern
+
+**Enhanced Subdomain Display:**
+1. Show objectives clearly
+2. Display exam focus prominently (if provided)
+3. List key points in expandable sections
+4. Provide reading resources with links
+5. Reference study plan documents at page top
+
+**Study Plan References:**
+- Always include reference to source documents at page top
+- Link to both Study Plan V2 markdown and official PDF
+- Show exam weight and time estimates
+- Provide context about exam coverage

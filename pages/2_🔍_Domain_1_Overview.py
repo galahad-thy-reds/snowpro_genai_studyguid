@@ -24,15 +24,52 @@ section_info = SECTIONS[1]
 st.title(f"{section_info['icon']} {section_info['title']}")
 st.caption(f"Estimated time: {section_info['time']} | Exam weight: {section_info['weight']}%")
 
+# Reference to study plan
+with st.expander("📚 **Study Plan References**", expanded=False):
+    st.markdown("""
+    This section is based on:
+    - **[SnowPro GenAI Study Plan V2](docs/SnowPro_GenAI_Study_Plan_V2.md)** - Section 2: Domain 1.0
+    - **[Official SnowPro Study Guide PDF](docs/SnowProGenAIStudyGuide.pdf)** - Domain 1.0 (Pages 6-7)
+    
+    **Exam Coverage**: This domain represents **26%** of the exam. Focus on understanding:
+    - When to use each Cortex component (AISQL, Analyst, Search, Agents, Copilot)
+    - RBAC patterns and access control
+    - Interface options (SQL, REST, Python)
+    - Cross-region inference configuration
+    - BYOM (Bring Your Own Model) capabilities
+    """)
+
 st.markdown("---")
 
 # Subdomains
 st.markdown("## Subdomains & Objectives")
 
+st.info(
+    "💡 **Study Tip**: Each subdomain maps to exam objectives. Focus on understanding "
+    "**when to use each component** and **key configuration parameters**. "
+    "Reference: [Study Plan V2](docs/SnowPro_GenAI_Study_Plan_V2.md) Section 2"
+)
+
 for subdomain in DOMAIN_1_SUBDOMAINS:
     with st.expander(f"**{subdomain.title}**"):
-        st.markdown(f"**Objectives:** {subdomain.objectives}")
-        st.markdown("**Reading:**")
+        st.markdown(f"**📋 Objectives:** {subdomain.objectives}")
+        
+        # Exam Focus
+        if subdomain.exam_focus:
+            st.markdown("---")
+            st.markdown("### 🎯 Exam Focus")
+            st.markdown(f"*{subdomain.exam_focus}*")
+        
+        # Key Points
+        if subdomain.key_points:
+            st.markdown("---")
+            st.markdown("### 🔑 Key Points to Remember")
+            for point in subdomain.key_points:
+                st.markdown(f"- {point}")
+        
+        # Reading Resources
+        st.markdown("---")
+        st.markdown("### 📖 Reading Resources")
         for reading in subdomain.readings:
             st.markdown(f"- [{reading.title}]({reading.url})")
 
