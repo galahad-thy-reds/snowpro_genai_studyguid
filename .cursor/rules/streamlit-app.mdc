@@ -14,7 +14,7 @@ This is a Streamlit application for studying the SnowPro Specialty: Gen AI Certi
 ```
 snowpro_genai_studyguid/
 ├── app.py                    # Main Streamlit entry point
-├── pages/                    # Multi-page app structure
+├── pages/                    # Multi-page app structure (presentation layer)
 │   ├── 1_📚_Introduction.py
 │   ├── 2_🔍_Domain_1_Overview.py
 │   ├── 3_🤖_Domain_2_GenAI_Functions.py
@@ -24,7 +24,10 @@ snowpro_genai_studyguid/
 │   └── 7_📝_Exam_Prep.py
 ├── src/
 │   ├── config.py            # Configuration and constants
-│   ├── data_loader.py       # Load and parse study plan content
+│   ├── content/             # Content modules (data layer)
+│   │   ├── __init__.py
+│   │   └── domain_1.py      # Domain 1.0 content (subdomains, tasks)
+│   ├── data_loader.py       # Load and parse study plan content (dataclasses)
 │   ├── snowflake_utils.py   # Snowflake connection helpers (if needed)
 │   └── utils.py             # Utility functions
 ├── assets/                   # Static assets (images, etc.)
@@ -35,6 +38,52 @@ snowpro_genai_studyguid/
 ├── .env.example             # Environment variables template
 ├── .python-version          # Python 3.10 (for uv)
 └── uv.lock                  # uv lock file (auto-generated)
+```
+
+## Content Architecture (Separation of Concerns)
+
+**Pattern**: Separate content (data) from presentation (UI)
+
+- **`pages/`**: Streamlit page files - handle UI rendering only
+- **`src/content/`**: Content modules - store structured content using dataclasses
+- **`src/data_loader.py`**: Defines dataclasses (`Subdomain`, `Reading`, `PracticeTask`, etc.)
+
+**Rules for Content Files:**
+- Store section content in `src/content/` modules (e.g., `domain_1.py`, `domain_2.py`)
+- Use dataclasses from `src/data_loader.py` for type-safe content structures
+- Export constants (e.g., `DOMAIN_1_SUBDOMAINS`, `DOMAIN_1_PRACTICE_TASKS`)
+- Page files import content and render it - no hardcoded content in page files
+
+**Example Structure:**
+```python
+# src/content/domain_1.py
+from src.data_loader import Subdomain, PracticeTask, Reading
+
+DOMAIN_1_SUBDOMAINS = [
+    Subdomain(
+        title="1. Principles, Features & Best Practices",
+        objectives="...",
+        readings=[Reading("Title", "URL"), ...]
+    ),
+    ...
+]
+
+DOMAIN_1_PRACTICE_TASKS = [
+    PracticeTask(description="...", url="..."),
+    ...
+]
+```
+
+**Page File Pattern:**
+```python
+# pages/2_🔍_Domain_1_Overview.py
+from src.content.domain_1 import DOMAIN_1_SUBDOMAINS, DOMAIN_1_PRACTICE_TASKS
+
+# Render content (no hardcoded data)
+for subdomain in DOMAIN_1_SUBDOMAINS:
+    with st.expander(f"**{subdomain.title}**"):
+        st.markdown(f"**Objectives:** {subdomain.objectives}")
+        ...
 ```
 
 ## Environment Management with uv
@@ -75,6 +124,15 @@ snowpro_genai_studyguid/
 - Use descriptive variable names
 - Add docstrings to all functions and classes (Google style)
 - Group imports: standard library, third-party, local imports
+
+## Content Management
+
+- **Never hardcode content in page files** - always use content modules
+- Create content files in `src/content/` for each domain/section
+- Use dataclasses (`Subdomain`, `Reading`, `PracticeTask`) from `src/data_loader.py`
+- Page files should only contain presentation logic (Streamlit UI code)
+- Content files should only contain data structures (no Streamlit imports)
+- When adding new sections, create corresponding content module first
 
 ## Study Plan Integration
 
