@@ -1,0 +1,85 @@
+---
+alwaysApply: true
+description: uv environment and dependency management patterns
+---
+
+# uv Environment Management
+
+## Project Setup
+
+- Python version: 3.10 (specified in `.python-version` or `pyproject.toml`)
+- Virtual environment location: `.venv/` (default)
+- Lock file: `uv.lock` (auto-generated, commit to version control)
+
+## Common uv Commands
+
+### Environment Management
+```bash
+# Create virtual environment
+uv venv
+
+# Activate (Linux/Mac)
+source .venv/bin/activate
+
+# Activate (Windows)
+.venv\Scripts\activate
+
+# Run command in uv environment without activation
+uv run <command>
+```
+
+### Dependency Management
+```bash
+# Install from requirements.txt
+uv pip install -r requirements.txt
+
+# Install new package
+uv pip install package-name
+
+# Update requirements.txt after installing
+uv pip freeze > requirements.txt
+
+# Sync dependencies (install exactly from requirements.txt)
+uv pip sync requirements.txt
+
+# List installed packages
+uv pip list
+
+# Show package info
+uv pip show package-name
+```
+
+### Running Applications
+```bash
+# Run Streamlit app
+uv run streamlit run app.py
+
+# Run Python script
+uv run python script.py
+
+# Run with specific Python version
+uv run --python 3.10 streamlit run app.py
+```
+
+## Best Practices
+
+- Always use `uv run` prefix when running commands in CI/CD
+- Keep `requirements.txt` updated and committed
+- Use `uv pip sync` in production to ensure exact dependency versions
+- Pin major versions in requirements.txt for stability
+- Use `uv pip install --upgrade-package` to update specific packages
+- Document Python version requirement in README
+
+## Integration with IDEs
+
+- Configure IDE to use `.venv/bin/python` (or `.venv\Scripts\python.exe` on Windows)
+- VS Code: Select interpreter from `.venv` directory
+- PyCharm: Configure project interpreter to `.venv`
+- Cursor: Should auto-detect `.venv` when present
+
+## Troubleshooting
+
+- If `uv` not found: Install via `curl -LsSf https://astral.sh/uv/install.sh | sh`
+- If virtual environment issues: Delete `.venv` and recreate with `uv venv`
+- If dependency conflicts: Use `uv pip check` to identify issues
+- For production: Use `uv pip sync` to ensure exact versions match requirements.txt

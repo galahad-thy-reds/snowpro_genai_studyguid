@@ -1,0 +1,76 @@
+---
+globs: *.py
+description: Streamlit-specific patterns and best practices
+---
+
+# Streamlit Best Practices
+
+## Page Configuration
+
+Always set page config at the very top of each page:
+```python
+import streamlit as st
+
+st.set_page_config(
+    page_title="Page Title",
+    page_icon="🔍",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+```
+
+## Session State
+
+- Initialize session state values in a consistent way
+- Use descriptive keys (e.g., `user_progress`, `current_section`, `study_time_tracking`)
+- Group related state with dictionaries when appropriate
+- Always check for key existence before accessing: `if 'key' not in st.session_state:`
+- Use `st.session_state.get('key', default_value)` for safe access
+
+## Caching
+
+- Use `@st.cache_data` for data loading (dataframes, API responses, file reads, parsed study plan)
+- Use `@st.cache_resource` for objects (database connections, ML models, heavy computations)
+- Set `ttl` for time-sensitive cached data
+- Use `show_spinner` parameter for better UX
+- Consider `max_entries` for memory management
+- Clear cache when needed: `st.cache_data.clear()`
+
+## Layout
+
+- Use `st.columns()` for side-by-side content (not `st.beta_columns()`)
+- Use `st.container()` for grouping elements
+- Use `st.expander()` for collapsible content sections (objectives, reading lists)
+- Use `st.tabs()` for organizing related content
+- Use `st.columns([1, 3, 1])` for centered content
+
+## Forms
+
+- Wrap user inputs in `st.form()` for batch submission
+- Use `st.form_submit_button()` inside forms
+- Access form data after submission validation
+- Use forms for progress tracking and quiz submissions
+
+## Data Display
+
+- Use `st.dataframe()` for interactive tables
+- Use `st.table()` for static tables
+- Use `st.json()` for structured data debugging
+- Use `st.code()` for code blocks with syntax highlighting
+- Use `st.markdown()` with HTML for rich formatting
+
+## Navigation
+
+- Use Streamlit's built-in multi-page structure (`pages/` directory)
+- Implement progress tracking in sidebar
+- Use emoji prefixes for visual page identification
+- Use `st.sidebar` for navigation links and progress indicators
+
+## Performance Optimization
+
+- Load heavy data once, reuse via session state
+- Use `st.empty()` containers for dynamic updates
+- Debounce user inputs when appropriate
+- Stream large datasets instead of loading all at once
+- Use `st.spinner()` for long-running operations
+- Show progress with `st.progress()` for multi-step processes

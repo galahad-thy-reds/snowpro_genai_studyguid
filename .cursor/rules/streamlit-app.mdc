@@ -1,0 +1,115 @@
+---
+alwaysApply: true
+description: Streamlit app development patterns for SnowPro GenAI Study Guide
+---
+
+# SnowPro GenAI Study Guide - Streamlit App Rules
+
+## Project Overview
+
+This is a Streamlit application for studying the SnowPro Specialty: Gen AI Certification, based on the course structure in [SnowPro_GenAI_Study_Plan_V2.md](mdc:docs/SnowPro_GenAI_Study_Plan_V2.md).
+
+## Project Structure
+
+```
+snowpro_genai_studyguid/
+├── app.py                    # Main Streamlit entry point
+├── pages/                    # Multi-page app structure
+│   ├── 1_📚_Introduction.py
+│   ├── 2_🔍_Domain_1_Overview.py
+│   ├── 3_🤖_Domain_2_GenAI_Functions.py
+│   ├── 4_🔒_Domain_3_Governance.py
+│   ├── 5_📄_Domain_4_Document_AI.py
+│   ├── 6_🎯_Capstone.py
+│   └── 7_📝_Exam_Prep.py
+├── src/
+│   ├── config.py            # Configuration and constants
+│   ├── data_loader.py       # Load and parse study plan content
+│   ├── snowflake_utils.py   # Snowflake connection helpers (if needed)
+│   └── utils.py             # Utility functions
+├── assets/                   # Static assets (images, etc.)
+├── docs/                     # Documentation
+│   ├── SnowPro_GenAI_Study_Plan_V2.md
+│   └── project_summary.md
+├── requirements.txt          # Python dependencies
+├── .env.example             # Environment variables template
+├── .python-version          # Python 3.10 (for uv)
+└── uv.lock                  # uv lock file (auto-generated)
+```
+
+## Environment Management with uv
+
+- Use `uv` for all Python environment and dependency management
+- Create virtual environment: `uv venv`
+- Install dependencies: `uv pip install -r requirements.txt`
+- Sync dependencies: `uv pip sync requirements.txt`
+- Add new package: `uv pip install package-name` then update requirements.txt
+- Activate: `source .venv/bin/activate` (Linux/Mac) or `.venv\Scripts\activate` (Windows)
+- Run Streamlit: `uv run streamlit run app.py` (runs in uv-managed environment)
+
+## Python 3.10 Standards
+
+- Use type hints for all function parameters and return types
+- Prefer `from __future__ import annotations` for forward references
+- Use `match/case` statements where appropriate (Python 3.10+)
+- Use dataclasses for data structures when appropriate
+- Leverage structural pattern matching for complex conditionals
+
+## Streamlit Best Practices
+
+- Use `st.set_page_config()` at the top of each page
+- Implement session state for maintaining user progress through study sections
+- Use `@st.cache_data` for expensive data loading operations (parsing study plan)
+- Use `@st.cache_resource` for expensive object initialization (e.g., model loading)
+- Prefer `st.columns()` for layout over deprecated `st.beta_columns()`
+- Use `st.expander()` for collapsible sections (objectives, reading lists)
+- Implement proper error handling with `st.error()` and `try/except`
+- Use `st.markdown()` with HTML for rich formatting when needed
+- Organize code into reusable functions/classes
+- Use `st.sidebar` for navigation and progress tracking
+
+## Code Style
+
+- Follow PEP 8 conventions
+- Maximum line length: 100 characters (Streamlit-friendly)
+- Use descriptive variable names
+- Add docstrings to all functions and classes (Google style)
+- Group imports: standard library, third-party, local imports
+
+## Study Plan Integration
+
+- Parse study plan content from [SnowPro_GenAI_Study_Plan_V2.md](mdc:docs/SnowPro_GenAI_Study_Plan_V2.md)
+- Structure content by sections and domains (7 main sections)
+- Link to official Snowflake documentation URLs from study plan
+- Track user progress through study sections using session state
+- Display time estimates from study plan (e.g., "3.0 h" for Domain 1.0)
+- Organize by domain weights: 1.0 (26%), 2.0 (40%), 3.0 (22%), 4.0 (12%)
+- Include practice tasks and assignments from study plan
+- Reference "Exam-Safe" vs "Latest/Preview" distinctions from study plan
+
+## Snowflake Cortex AI Patterns
+
+When implementing Snowflake integration:
+- Use `snowflake.connector` or `snowflake-snowpark-python` for connections
+- Store credentials in environment variables (never hardcode)
+- Implement connection pooling for efficiency
+- Use parameterized queries for all SQL operations
+- Follow Snowflake RBAC patterns (CORTEX_USER, COPILOT_USER roles)
+- Handle cross-region inference configuration properly
+- Prefer AISQL functions (AI_COMPLETE, AI_PARSE_DOCUMENT, AI_EXTRACT) over deprecated PREDICT paths
+
+## Error Handling
+
+- Always handle Snowflake connection errors gracefully
+- Provide user-friendly error messages
+- Log errors appropriately (consider using Python logging)
+- Implement retry logic for transient failures
+- Validate user inputs before API calls
+
+## Performance
+
+- Cache parsed study plan content with `@st.cache_data`
+- Lazy load pages and heavy content
+- Use Streamlit's native caching mechanisms
+- Optimize images and assets
+- Minimize external API calls

@@ -1,0 +1,63 @@
+---
+description: Rules for parsing and displaying study plan content
+---
+
+# Study Plan Content Structure
+
+## Source Document
+
+All content should be parsed from [SnowPro_GenAI_Study_Plan_V2.md](mdc:docs/SnowPro_GenAI_Study_Plan_V2.md).
+
+## Section Structure
+
+The study plan has 7 main sections:
+1. **Section 1** - Introduction (30 min)
+2. **Section 2** - Domain 1.0: Snowflake for Gen AI Overview (3.0 h, 26% weight)
+3. **Section 3** - Domain 2.0: Snowflake Gen AI & LLM Functions (4.5 h, 40% weight)
+4. **Section 4** - Domain 3.0: Snowflake Gen AI Governance (2.0 h, 22% weight)
+5. **Section 5** - Domain 4.0: Snowflake Document AI (1.5 h, 12% weight)
+6. **Section 6** - Capstone: Document Processing Framework (2.0 h)
+7. **Section 7** - Final Exam Prep (1.0 h)
+
+## Content Elements to Extract
+
+### For Each Section:
+- **Lessons & Objectives**: List of lessons with their objectives
+- **Reading (curated)**: Links to official Snowflake documentation
+- **Hands-on**: Practice tasks and exercises
+- **Practice Tasks**: Specific tasks to complete
+- **Assignments**: Larger projects/assignments
+- **Lab Steps**: Step-by-step instructions for capstone
+
+### Key Patterns:
+- Objectives are marked with **Objectives:** prefix
+- Reading links are in bullet lists with URLs
+- Practice tasks are in bullet lists
+- Time estimates are in format like "3.0 h"
+- Domain weights are percentages (26%, 40%, 22%, 12%)
+
+## Display Guidelines
+
+- Show time estimates prominently
+- Display domain weights in progress indicators
+- Make documentation links clickable (open in new tab)
+- Use expanders for reading lists and practice tasks
+- Track completion status for each section
+- Show progress percentage based on completed sections
+
+## Important Notes from Study Plan
+
+- Prefer "Exam-Safe" (GA/Stable) features over "Latest/Preview"
+- Document AI: Older `PREDICT` paths are deprecated, use AISQL functions
+- Usage tracking: Use `CORTEX_AISQL_USAGE_HISTORY` (not older `CORTEX_FUNCTIONS_*` views)
+- Model access: Use opt-out & DB roles, model-level RBAC is newer capability
+- Always verify GA status before adopting preview features
+
+## Data Models
+
+When parsing the study plan, create data structures for:
+- Section (with title, time, weight, objectives, readings, tasks)
+- Objective (with description and related readings)
+- Reading (with title and URL)
+- Practice Task (with description and optional URL)
+- Assignment (with description and deliverables)

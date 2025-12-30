@@ -1,0 +1,58 @@
+---
+globs: *.py
+description: Python 3.10 specific coding standards
+---
+
+# Python 3.10 Coding Standards
+
+## Type Hints
+
+- Always use type hints for function signatures
+- Use `from __future__ import annotations` at module top for forward references
+- Prefer `typing.Protocol` for structural typing when appropriate
+- Use `typing.Union` or `X | Y` syntax (Python 3.10+)
+- Use `list[str]` instead of `List[str]` (Python 3.9+)
+- Use `dict[str, Any]` instead of `Dict[str, Any]` (Python 3.9+)
+
+## Modern Python Features
+
+- Use structural pattern matching (`match/case`) instead of long if/elif chains
+- Use `dataclasses` with `frozen=True` for immutable data structures
+- Use `dataclasses.field()` with default factories for mutable defaults
+- Leverage `contextlib.contextmanager` for resource management
+- Use `functools.cached_property` for expensive computed properties
+
+## String Formatting
+
+- Prefer f-strings for all string formatting
+- Use f-string expressions for simple computations
+- For complex formatting, use `.format()` or template strings
+
+## Error Handling
+
+- Use specific exception types, not bare `except:`
+- Provide context in exception messages
+- Use `raise ... from ...` to preserve exception chains
+- Use `ExceptionGroup` only if needed (Python 3.11+), otherwise handle exceptions individually
+
+## Collections
+
+- Use `collections.abc` types for type hints (e.g., `Mapping`, `Sequence`)
+- Prefer built-in types (`dict`, `list`, `tuple`) over typing equivalents (Python 3.9+)
+- Use `collections.deque` for efficient FIFO/LIFO operations
+- Use `collections.defaultdict` when appropriate
+
+## Imports
+
+- Use absolute imports
+- Group imports: stdlib, third-party, local
+- Use `from __future__ import annotations` to enable postponed evaluation
+- One import per line for readability
+
+## Performance
+
+- Use `functools.lru_cache` for expensive pure functions
+- Prefer list comprehensions over map/filter where readable
+- Use generators for large datasets
+- Consider `itertools` for efficient iteration patterns
+- Use `__slots__` for classes with many instances to save memory
