@@ -78,6 +78,11 @@ Each `Subdomain` dataclass should include:
 - Include configuration parameters and their purposes
 - Reference specific functions, roles, or settings
 - Keep each point focused and actionable
+- **Match PDF Structure**: When the PDF study guide shows hierarchical structure, replicate it in key_points:
+  - Use indentation (2 spaces) for nested items under parent categories
+  - Parent categories should be bold (e.g., **Snowflake Cortex**)
+  - Nested items use dashes and indentation (e.g., "  - **General functions**: ...")
+  - Match the exact hierarchy and grouping from the PDF for consistency
 
 **Exam Focus Format:**
 - Single sentence summarizing what to remember for the exam
